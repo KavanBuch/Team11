@@ -43,18 +43,12 @@ struct player_stats
     int is_30_plus;
     int half_century;
     int century;
-    int high_strike_rate; // above 150
-    int low_strike_rate;  // below 100
     int golden_duck_dismissal;
 
     //bowler specific stats
     int wickets_taken;
-    int overs_bowled;
-    int runs_given;
     int maiden_over;
     int five_wickets;
-    int is_low_economy;  // below 5 runs per over
-    int is_high_economy; // above 12 runs per over
 };
 
 int main()
