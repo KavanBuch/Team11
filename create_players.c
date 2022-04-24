@@ -77,7 +77,6 @@ int main()
             }
             char file_path[2 * DATA_SIZE] = "players/";
             strcat(file_path, dataToBeRead);
-
             player = fopen(file_path, "w");
 
             if (player == NULL)

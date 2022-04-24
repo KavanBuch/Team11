@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include<stdlib.h>
+#include <stdlib.h>
 
 #define DATA_SIZE 100
 #define TEAM_SIZE 12
@@ -35,7 +35,7 @@ struct player_stats
 {
     char name[DATA_SIZE];
 
-    //batsman specific stats
+    // batsman specific stats
     int runs_scored;
     int bowls_played;
     int boundaries;
@@ -45,7 +45,7 @@ struct player_stats
     int century;
     int golden_duck_dismissal;
 
-    //bowler specific stats
+    // bowler specific stats
     int wickets_taken;
     int maiden_over;
     int five_wickets;
@@ -67,10 +67,29 @@ int main()
         green();
         printf("\n\nCalculating your score...\n\n");
         reset();
-        int counter = 0;
         while (fgets(dataToBeRead, DATA_SIZE, filePointer) != NULL)
         {
-            printf("%s", dataToBeRead);
+            int points = 0;
+            FILE *player_data;
+            char stats[10];
+            char file_path[2 * DATA_SIZE] = "players/";
+            strcat(file_path, dataToBeRead);
+            printf("%s",file_path);
+            player_data = fopen(file_path, "r");
+            if (player_data == NULL)
+            {
+                red();
+                printf("Failed to open the player's file.\n\n");
+                reset();
+            }
+            else
+            {
+                while (fgets(stats, 10, player_data) != NULL)
+                {
+                    printf("%s", stats);
+                }
+                fclose(player_data);
+            }
         }
         fclose(filePointer);
     }
