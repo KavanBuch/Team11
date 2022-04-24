@@ -33,7 +33,7 @@ int main()
     printf("*********************Welcome to Team11*********************\n\n");
     printf("Following are the rules for making your team:\n\n");
     reset();
-    printf("You will be given a list of 22 available players from both of the teams.You are supposed to choose any 11 out of them with some bounds as follows:\n\n");
+    printf("You will be given a list of 30 available players from both of the teams(15 from each).You are supposed to choose any 11 out of them with some bounds as follows:\n\n");
     printf("(1)Total team size should be 11 and maximum of 7 players can be chosen from one team.\n\n");
     printf("(2)Your team can different combination of players.\n\n");
     printf("(3)Your team must follow the following criteria:\n");
