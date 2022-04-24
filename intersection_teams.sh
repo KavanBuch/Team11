@@ -18,8 +18,8 @@ while read -r player1; do
           if [ "${player1}" == "${player2}" ]; then
                found=1;
           fi
-     done < ${path_of_playing_team}    
+     done < "${path_of_playing_team}"
      if [ "${found}" -eq 1 ]; then
           echo "$player1" >> ./intersection_team.txt
      fi   
-done < ${path_of_chosen_team}
+done < "${path_of_chosen_team}"
