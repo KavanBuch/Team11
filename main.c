@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
+#include<stdlib.h>
 
 #define DATA_SIZE 100
 #define TEAM_SIZE 12
@@ -29,11 +31,36 @@ void reset()
     printf("\033[0m");
 }
 
+struct player_stats
+{
+    char name[DATA_SIZE];
+
+    //batsman specific stats
+    int runs_scored;
+    int bowls_played;
+    int boundaries;
+    int sixes;
+    int is_30_plus;
+    int half_century;
+    int century;
+    int high_strike_rate; // above 150
+    int low_strike_rate;  // below 100
+    int golden_duck_dismissal;
+
+    //bowler specific stats
+    int wickets_taken;
+    int overs_bowled;
+    int runs_given;
+    int maiden_over;
+    int five_wickets;
+    int is_low_economy;  // below 5 runs per over
+    int is_high_economy; // above 12 runs per over
+};
+
 int main()
 {
     FILE *filePointer;
     char dataToBeRead[DATA_SIZE];
-    char players[TEAM_SIZE][DATA_SIZE];
     filePointer = fopen("intersection_team.txt", "r");
     if (filePointer == NULL)
     {
@@ -43,15 +70,13 @@ int main()
     }
     else
     {
+        green();
+        printf("\n\nCalculating your score...\n\n");
+        reset();
         int counter = 0;
         while (fgets(dataToBeRead, DATA_SIZE, filePointer) != NULL)
         {
-            for (int i = 0; i < strlen(dataToBeRead); i++)
-            {
-                players[counter][i] = dataToBeRead[i];
-            }
-            players[counter][strlen(dataToBeRead)]='\0';
-            counter++;
+            printf("%s", dataToBeRead);
         }
         fclose(filePointer);
     }
