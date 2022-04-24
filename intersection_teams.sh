@@ -9,7 +9,7 @@ path_of_chosen_team="${path_of_dir}/${2}"
 # if already exists then remove it because we will append the content inside it.
 
 if [ -f "${path_of_dir}"/intersection_team.txt ]; then
-     rm intersection_team.txt
+     rm "${path_of_dir}"/intersection_team.txt
 fi
 
 while read -r player1; do

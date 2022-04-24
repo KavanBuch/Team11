@@ -42,9 +42,5 @@ int main()
     printf("\t(iii)Minimum of 1 and maximum of 4 all-rounder should be selected.\n");
     printf("\t(iv) Minimum of 3 and maximum of 6 bowler should be selected.\n");
     printf("\n");
-    printf("(3)once the team is formed.You have to assign a captain and vice-captain of your team.\n\n");
-    red();
-    printf("Note that captain will give you 2x points scored by them in actual match and vice-captain will give you 1.5x points scored by them in actual match.\n\n");
-    reset();
     return 0;
 }
