@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 #define DATA_SIZE 100
-#define TEAM_SIZE 12
+#define TEAM_SIZE 22
 
 void red()
 {
@@ -33,8 +33,6 @@ void reset()
 
 struct player_stats
 {
-    char name[DATA_SIZE];
-
     // batsman specific stats
     int runs_scored;
     int bowls_played;
@@ -51,13 +49,27 @@ struct player_stats
     int five_wickets;
 };
 
+int random_num(int lower_limit, int higher_limit)
+{
+    return ((rand() % (higher_limit - lower_limit + 1)) + lower_limit);
+}
+
+struct player
+{
+    char name[DATA_SIZE];
+    int points;
+};
+
+typedef struct player player;
+
+player players[TEAM_SIZE];
+
 int main()
 {
     FILE *filePointer;
     char dataToBeRead[DATA_SIZE];
-    char players[TEAM_SIZE][DATA_SIZE];
     int cnt = 0;
-    filePointer = fopen("intersection_team.txt", "r");
+    filePointer = fopen("actual_team.txt", "r");
     if (filePointer == NULL)
     {
         red();
@@ -68,47 +80,60 @@ int main()
     {
         green();
         printf("\n\nCalculating your score...\n\n");
+        sleep(3);
         reset();
         while (fgets(dataToBeRead, DATA_SIZE, filePointer) != NULL)
         {
             for (int i = 0; i < strlen(dataToBeRead); i++)
             {
-                players[cnt][i] = dataToBeRead[i];
+                players[cnt].name[i] = dataToBeRead[i];
             }
-            players[cnt][strlen(dataToBeRead)] = '\0';
+            players[cnt].name[strlen(dataToBeRead)] = '\0';
+            players[cnt].points = random_num(0, 50);
             cnt++;
         }
     }
     fclose(filePointer);
-    for (int i = 0; i < cnt; i++)
-    {
-        char name[DATA_SIZE];
-        for (int j = 0; j < strlen(players[i]); j++)
-        {
-            name[j] = players[i][j];
-        }
-        name[strlen(players[i])] = '\0';
-        printf("%s", name);
-        char location[2 * DATA_SIZE] = "players/";
-        strcat(location, name);
 
-        FILE *player;
-        char stats[10];
-        player = fopen(location, "r");
-        if (player == NULL)
+    int total_score = 0;
+
+    FILE *fp;
+    char data[DATA_SIZE];
+    fp = fopen("intersection_team.txt", "r");
+    if (fp == NULL)
+    {
+        red();
+        printf("Failed to open the file\n\n");
+        reset();
+    }
+    else
+    {
+        green();
+        reset();
+        while (fgets(data, DATA_SIZE, fp) != NULL)
         {
-            red();
-            printf("Failed to open the file\n\n");
-            reset();
-        }
-        else
-        {
-            while (fgets(stats, DATA_SIZE, player) != NULL)
+            for (int i = 0; i < TEAM_SIZE; i++)
             {
-                printf("%s", stats);
+                int error = 0;
+                if (strlen(players[i].name) != strlen(data))
+                    continue;
+                for (int j = 0; j < strlen(players[i].name); j++)
+                {
+                    if (players[i].name[j] != data[j])
+                    {
+                        error = 1;
+                        break;
+                    }
+                }
+                if (!error)
+                {
+                    total_score += players[i].points;
+                }
             }
         }
-        fclose(player);
+        printf("Your score is %d\n", total_score);
+        sleep(1);
     }
+    fclose(fp);
     return 0;
 }
