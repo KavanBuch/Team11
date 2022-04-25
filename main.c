@@ -55,6 +55,8 @@ int main()
 {
     FILE *filePointer;
     char dataToBeRead[DATA_SIZE];
+    char players[TEAM_SIZE][DATA_SIZE];
+    int cnt = 0;
     filePointer = fopen("intersection_team.txt", "r");
     if (filePointer == NULL)
     {
@@ -69,29 +71,44 @@ int main()
         reset();
         while (fgets(dataToBeRead, DATA_SIZE, filePointer) != NULL)
         {
-            int points = 0;
-            FILE *player_data;
-            char stats[10];
-            char file_path[2 * DATA_SIZE] = "players/";
-            strcat(file_path, dataToBeRead);
-            printf("%s", file_path);
-            player_data = fopen(file_path, "r");
-            if (player_data == NULL)
+            for (int i = 0; i < strlen(dataToBeRead); i++)
             {
-                red();
-                printf("Failed to open the player's file.\n\n");
-                reset();
+                players[cnt][i] = dataToBeRead[i];
             }
-            else
+            players[cnt][strlen(dataToBeRead)] = '\0';
+            cnt++;
+        }
+    }
+    fclose(filePointer);
+    for (int i = 0; i < cnt; i++)
+    {
+        char name[DATA_SIZE];
+        for (int j = 0; j < strlen(players[i]); j++)
+        {
+            name[j] = players[i][j];
+        }
+        name[strlen(players[i])] = '\0';
+        printf("%s", name);
+        char location[2 * DATA_SIZE] = "players/";
+        strcat(location, name);
+
+        FILE *player;
+        char stats[10];
+        player = fopen(location, "r");
+        if (player == NULL)
+        {
+            red();
+            printf("Failed to open the file\n\n");
+            reset();
+        }
+        else
+        {
+            while (fgets(stats, DATA_SIZE, player) != NULL)
             {
-                while (fgets(stats, 10, player_data) != NULL)
-                {
-                    printf("%s", stats);
-                }
-                fclose(player_data);
+                printf("%s", stats);
             }
         }
-        fclose(filePointer);
+        fclose(player);
     }
     return 0;
 }
