@@ -74,7 +74,7 @@ int main()
             char stats[10];
             char file_path[2 * DATA_SIZE] = "players/";
             strcat(file_path, dataToBeRead);
-            printf("%s",file_path);
+            printf("%s", file_path);
             player_data = fopen(file_path, "r");
             if (player_data == NULL)
             {

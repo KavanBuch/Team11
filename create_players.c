@@ -76,8 +76,9 @@ int main()
                 dataToBeWritten[i] = dataToBeRead[i];
             }
             char file_path[2 * DATA_SIZE] = "players/";
-            strcat(file_path, dataToBeRead);
-            player = fopen(file_path, "w");
+            strcat(file_path, dataToBeWritten);
+
+            player = fopen(file_path, "w+");
 
             if (player == NULL)
             {
@@ -157,9 +158,8 @@ int main()
                 sprintf(str, "%d", fiver);
                 fputs(str, player);
                 fputs("\n", player);
-
-                fclose(player);
             }
+            fclose(player);
         }
         fclose(filePointer);
     }
