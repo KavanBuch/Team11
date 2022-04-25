@@ -96,7 +96,7 @@ int main()
             {
                 if (team[i] == 1)
                 {
-                    fputs(players[i], input_file);
+                    fputs(players[i-1], input_file);
                     fputs("\n", input_file);
                 }
             }
