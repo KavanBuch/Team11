@@ -55,11 +55,11 @@ void write_file(int sockfd)
     int n;
     char buffer[SIZE];
     bzero(buffer, SIZE);
-    while (buffer[0] != '`')
+    while (buffer[0] != '~')
     {
         bzero(buffer, SIZE);
         n = recv(sockfd, buffer, SIZE, 0);
-        if (buffer[0] == '`')
+        if (buffer[0] == '~')
         {
             break;
         }
@@ -79,7 +79,7 @@ int main()
 
     int sockfd;
     struct sockaddr_in server_addr;
-
+    // create a socket network
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0)
     {
@@ -92,10 +92,12 @@ int main()
     printf("[+]Client socket created successfully.\n");
     reset();
 
+    // specify an address for the socket
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = port;
     server_addr.sin_addr.s_addr = inet_addr(ip);
 
+    // check if connected or not.
     e = connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr));
     if (e == -1)
     {
@@ -109,7 +111,7 @@ int main()
     printf("[+]Connected to Server.\n");
     reset();
 
-    // rules.txt file
+    // receive rules.txt file from the server
     write_file(sockfd);
     sleep(2);
 
@@ -127,10 +129,12 @@ int main()
         exit(1);
     }
 
+    // send the output genrated by c program to the server
     send_file(fp, sockfd);
 
+    //clear the buffer of the string if any
     bzero(buffer, SIZE);
-    strcpy(buffer, "`");
+    strcpy(buffer, "~");
     send(sockfd, buffer, strlen(buffer), 0);
 
     fclose(fp);
@@ -142,6 +146,7 @@ int main()
     reset();
     printf("[+]Closing the connection.\n\n");
 
+    //close the socket
     close(sockfd);
 
     return 0;

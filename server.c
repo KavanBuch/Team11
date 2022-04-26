@@ -71,11 +71,11 @@ void write_file(int sockfd)
     fp = fopen(filename, "w+");
 
     bzero(buffer, SIZE);
-    while (buffer[0] != '`')
+    while (buffer[0] != '~')
     {
         bzero(buffer, SIZE);
         n = recv(sockfd, buffer, SIZE, 0);
-        if (buffer[0] == '`')
+        if (buffer[0] == '~')
             break;
         if (n <= 0)
             return;
@@ -148,6 +148,8 @@ int main()
     for (int i = 1; i <= 6; i++)
     {
         addr_size = sizeof(new_addr);
+
+        //accept the request from client.
         new_sock = accept(sockfd, (struct sockaddr *)&new_addr, &addr_size);
 
         FILE *design;
@@ -156,7 +158,7 @@ int main()
         send_file(design, new_sock); // send result.txt to client
 
         bzero(buffer, SIZE);
-        strcpy(buffer, "`");
+        strcpy(buffer, "~");
         send(new_sock, buffer, strlen(buffer), 0);
 
         fclose(design);
@@ -164,6 +166,8 @@ int main()
         bzero(buffer, SIZE);
 
         write_file(new_sock);
+
+        // run linux commands 
         system("gcc main.c -o main.out");
         system("./main.out");
 
@@ -173,7 +177,7 @@ int main()
         send_file(result, new_sock); // send result.txt to client
 
         bzero(buffer, SIZE);
-        strcpy(buffer, "`");
+        strcpy(buffer, "~");
         send(new_sock, buffer, strlen(buffer), 0);
 
         fclose(result);
@@ -205,7 +209,7 @@ int main()
         send(new_sock, buffer, strlen(buffer), 0);
 
         bzero(buffer, 1024);
-        strcpy(buffer, "`");
+        strcpy(buffer, "~");
         send(new_sock, buffer, strlen(buffer), 0);
 
         close(new_sock);
