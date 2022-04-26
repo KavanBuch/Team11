@@ -79,7 +79,7 @@ int main()
     else
     {
         green();
-        printf("\n\nCalculating your score...\n\n");
+        printf("\n\nCalculating the score...\n\n");
         sleep(3);
         reset();
         while (fgets(dataToBeRead, DATA_SIZE, filePointer) != NULL)
@@ -104,6 +104,23 @@ int main()
     {
         red();
         printf("Failed to open the file\n\n");
+        FILE *output_file;
+        int total_score = 0;
+        output_file = fopen("result.txt", "w");
+        if (output_file == NULL)
+        {
+            red();
+            printf("Failed to open the file\n\n");
+            reset();
+        }
+        else
+        {
+            char final[1000];
+            sprintf(final, "Your final score is %d.It seems there is some glitch in your team selection.Please read the rules carefully.", total_score);
+            fputs(final, output_file);
+            fputs("\n", output_file);
+        }
+        fclose(output_file);
         reset();
     }
     else
@@ -142,7 +159,7 @@ int main()
         else
         {
             char final[100];
-            sprintf(final, "Your final score is %d", total_score);
+            sprintf(final, "Your final score is %d.Thank you for playing!!!", total_score);
             fputs(final, output_file);
             fputs("\n", output_file);
         }

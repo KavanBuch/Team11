@@ -5,6 +5,31 @@
 #include <pthread.h>
 #include <unistd.h>
 
+void red()
+{
+    printf("\033[1;31m");
+}
+void green()
+{
+    printf("\033[0;32m");
+}
+void yellow()
+{
+    printf("\033[1;33m");
+}
+void blue()
+{
+    printf("\033[0;34m");
+}
+void purple()
+{
+    printf("\033[0;35m");
+}
+void reset()
+{
+    printf("\033[0m");
+}
+
 #define SIZE 1024
 
 char buffer[SIZE];
@@ -30,144 +55,49 @@ void send_file(FILE *fp, int sockfd)
 void *thread_fn_no_param(void *arg)
 {
     pthread_mutex_lock(&mymutex);
-
     char cmd[100];
     strcpy(cmd, "./intersection_teams.sh actual_team.txt client_team.txt");
     system(cmd);
-
-    // FILE *fp;
-    // char *filename = "file.txt";
-    // fp = fopen(filename, "r");
-
-    // if (fp == NULL)
-    // {
-    // 		perror("[-]Error in reading file.");
-    // 		exit(1);
-    // }
-    // send_file(fp, new_sock);
-    // fclose(fp);
-    pthread_mutex_unlock(&mymutex);
-}
-
-void *thread_fn_no_param1(void *arg)
-{
-    pthread_mutex_lock(&mymutex);
-
-    char cmd[100];
-    strcpy(cmd, "./intersection_teams.sh actual_team.txt client_team.txt");
-    system(cmd);
-
-    // FILE *fp;
-    // char *filename = "file.txt";
-    // fp = fopen(filename, "r");
-
-    // if (fp == NULL)
-    // {
-    // 		perror("[-]Error in reading file.");
-    // 		exit(1);
-    // }
-    // send_file(fp, new_sock);
-    // fclose(fp);
     pthread_mutex_unlock(&mymutex);
 }
 
 void write_file(int sockfd)
 {
-    printf("Hello\n");
     int n;
     FILE *fp;
     char *filename = "client_team.txt";
 
     char buffer[SIZE];
-    // bzero(buffer,SIZE);
     fp = fopen(filename, "w+");
 
-    bzero(buffer, 1024);
+    bzero(buffer, SIZE);
     while (buffer[0] != '`')
     {
-        bzero(buffer, 1024);
+        bzero(buffer, SIZE);
         n = recv(sockfd, buffer, SIZE, 0);
         if (buffer[0] == '`')
             break;
-        printf("%s\n", buffer);
         if (n <= 0)
             return;
         fprintf(fp, "%s", buffer);
-        //  while (fscanf(fp, "%s ", buffer) == 1);
     }
-    printf("Hello1\n");
     pthread_t threadID;
     int err = pthread_create(&threadID, NULL, thread_fn_no_param, NULL);
 
-    printf("Hello2\n");
-
     if (err != 0)
-        printf("cant create thread: %s\n", strerror(err));
+        printf("Cannot create thread: %s\n", strerror(err));
     int ret;
 
     ret = pthread_mutex_init(&mymutex, NULL);
-    printf("Hello3\n");
     pthread_join(threadID, NULL);
-
-    printf("Ding Ding!\n");
     fclose(fp);
-
     ret = pthread_mutex_destroy(&mymutex);
-
-    return;
-}
-
-void write_text(int sockfd)
-{
-    printf("Hello\n");
-    int n;
-    FILE *fp;
-    char *filename = "testcase.txt";
-
-    char buffer[SIZE];
-    // bzero(buffer,SIZE);
-    fp = fopen(filename, "w+");
-
-    bzero(buffer, 1024);
-    while (buffer[0] != '`')
-    {
-        bzero(buffer, 1024);
-        n = recv(sockfd, buffer, SIZE, 0);
-        if (buffer[0] == '`')
-            break;
-        printf("%s\n", buffer);
-        if (n <= 0)
-            return;
-        fprintf(fp, "%s", buffer);
-        while (fscanf(fp, "%s ", buffer) == 1)
-            ;
-    }
-    printf("Hello1\n");
-    pthread_t threadID;
-    int err = pthread_create(&threadID, NULL, thread_fn_no_param1, NULL);
-
-    printf("Hello2\n");
-
-    if (err != 0)
-        printf("cant create thread: %s\n", strerror(err));
-    int ret;
-
-    ret = pthread_mutex_init(&mymutex, NULL);
-    printf("Hello3\n");
-    pthread_join(threadID, NULL);
-
-    printf("Ding Ding!\n");
-    fclose(fp);
-
-    ret = pthread_mutex_destroy(&mymutex);
-
     return;
 }
 
 int main()
 {
-
-    int port = 8080;
+    int port = 9999;
     int e;
     char *ip = "127.0.0.1";
     int sockfd;
@@ -181,7 +111,9 @@ int main()
         perror("[-]Error in socket");
         exit(1);
     }
-    printf("[+]Server socket created successfully.\n");
+    green();
+    printf("\n[+]Server socket created successfully.\n");
+    reset();
 
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = port;
@@ -190,51 +122,46 @@ int main()
     e = bind(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr));
     if (e < 0)
     {
+        red();
         perror("[-]Error in bind");
+        reset();
         exit(1);
     }
-
+    green();
     printf("[+]Binding successfull.\n");
+    reset();
 
     if (listen(sockfd, 5) == 0)
     {
+        yellow();
         printf("[+]Listening....\n");
+        reset();
     }
     else
     {
+        red();
         perror("[-]Error in listening");
+        reset();
         exit(1);
     }
+
     for (int i = 1; i <= 6; i++)
     {
-
         addr_size = sizeof(new_addr);
         new_sock = accept(sockfd, (struct sockaddr *)&new_addr, &addr_size);
 
         FILE *design;
         char *designname = "rules.txt";
         design = fopen(designname, "r");
-        send_file(design, new_sock); // send design.txt to client
+        send_file(design, new_sock); // send result.txt to client
 
-        bzero(buffer, 1024);
+        bzero(buffer, SIZE);
         strcpy(buffer, "`");
         send(new_sock, buffer, strlen(buffer), 0);
 
         fclose(design);
 
-        bzero(buffer, 1024);
-        // recv(new_sock, buffer, sizeof(buffer), 0); // receive the choice
-        // printf("%s\n",buffer);
-
-        // if(buffer[0]=='3')
-        // {
-        // 	write_file(new_sock); // receive the file xyz.c
-        // }
-
-        // else if(buffer[0]=='1' || buffer[0]=='2')
-        // {
-        // 	write_text(new_sock); // receive the file xyz.txt
-        // }
+        bzero(buffer, SIZE);
 
         write_file(new_sock);
         system("gcc main.c -o main.out");
@@ -243,30 +170,37 @@ int main()
         FILE *result;
         char *score = "result.txt";
         result = fopen(score, "r");
-        send_file(result, new_sock); // send design.txt to client
+        send_file(result, new_sock); // send result.txt to client
 
-        bzero(buffer, 1024);
+        bzero(buffer, SIZE);
         strcpy(buffer, "`");
         send(new_sock, buffer, strlen(buffer), 0);
 
         fclose(result);
 
-        bzero(buffer, 1024);
-
+        bzero(buffer, SIZE);
+        green();
         printf("[+]Data written in the file successfully.\n");
+        reset();
 
         if (listen(sockfd, 5) == 0)
         {
-            printf("[+]Listening....\n");
+            yellow();
+            printf("[+]Listening....\n\n");
+            reset();
         }
         else
         {
+            red();
             perror("[-]Error in listening");
+            reset();
             exit(1);
         }
 
-        bzero(buffer, 1024);
-        strcpy(buffer, "HI, THIS IS SERVER. HAVE A NICE DAY!!!\n");
+        bzero(buffer, SIZE);
+        yellow();
+        strcpy(buffer, "The score has been sent successfully to the client.\n");
+        reset();
         printf("Server: %s\n", buffer);
         send(new_sock, buffer, strlen(buffer), 0);
 

@@ -31,6 +31,7 @@ void reset()
     printf("\033[0m");
 }
 
+//List of the players
 char *players[TEAM_SIZE] = {"Michael Hussey ", "Murali Vijay ", "Suresh Raina", "S Badrinath", "MS Dhoni", "Albie Morkel", "Dwayne Bravo", "Wriddhiman Saha", "Ravichandran Ashwin", "Doug Bollinger", "Shadab Jakati", "Deepak Chahar", "Shardul Thakur", "Josh Hazalwood","Morne Morkel", "Davy Jacob", "Aiden Blizzard", "Tirumalasetti Suman", "Ambati Rayudu", "Andrew Symonds", "Kieron Pollard", "Rajagopal Sathish", "Harbhajan Singh", "Lasith Malinga", "Abu Nechim", "Yuzvendra Chahal", "Rohit Sharma", "Ishan Kishan", "Dwayne Smith","Andrew Tye"};
 
 int main()
@@ -44,10 +45,10 @@ int main()
 
     for (int i = 0; i < 11; i++)
     {
-        printf("Enter your team players's number(between 1 to 30):\t ");
+        printf("Enter your team players's number(between 1 to 30) => ");
         int player_no;
         scanf("%d", &player_no);
-        team[player_no] = 1;
+        team[player_no] += 1;
     }
     reset();
 
@@ -70,12 +71,15 @@ int main()
         }
     }
 
+    //If any of the team's members are more than 7 then it is not a valid tema choice.
     if (sum1 > 7 || sum2 > 7)
     {
         red();
         printf("You cannot select more than 7 players from one team\n\n");
         reset();
     }
+
+    //If multiple choice of a single player is made,then that is not a valid choice as well.
     else if (error == 1)
     {
         red();
