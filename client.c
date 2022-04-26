@@ -74,7 +74,7 @@ void write_file(int sockfd)
 int main()
 {
     char *ip = "127.0.0.1"; // local host
-    int port = 9999;
+    int port = 8080;
     int e;
 
     int sockfd;
