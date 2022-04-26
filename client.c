@@ -110,7 +110,7 @@ int main()
 
     fclose(fp);
 
-    // write_file(sockfd); // output file
+    write_file(sockfd);
 
     printf("[+]File data sent successfully.\n");
 

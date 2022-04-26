@@ -131,8 +131,22 @@ int main()
                 }
             }
         }
-        printf("Your score is %d\n", total_score);
-        sleep(1);
+        FILE *output_file;
+        output_file = fopen("result.txt", "w");
+        if (output_file == NULL)
+        {
+            red();
+            printf("Failed to open the file\n\n");
+            reset();
+        }
+        else
+        {
+            char final[100];
+            sprintf(final, "Your final score is %d", total_score);
+            fputs(final, output_file);
+            fputs("\n", output_file);
+        }
+        fclose(output_file);
     }
     fclose(fp);
     return 0;
