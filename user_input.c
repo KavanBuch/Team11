@@ -31,7 +31,7 @@ void reset()
     printf("\033[0m");
 }
 
-char *players[TEAM_SIZE] = {"Michael Hussey ", "Murali Vijay ", "Suresh Raina", "S Badrinath", "MS Dhoni", "Albie Morkel", "Dwayne Bravo", "Wriddhiman Saha", "Ravichandran Ashwin", "Doug Bollinger", "Shadab Jakati", "Deepak Chahar", "Shardul Thakur", "Josh Hazalwood", "Davy Jacob", "Aiden Blizzard", "Tirumalasetti Suman", "Ambati Rayudu", "Andrew Symonds", "Kieron Pollard", "Rajagopal Sathish", "Harbhajan Singh", "Lasith Malinga", "Abu Nechim", "Yuzvendra Chahal", "Rohit Sharma", "Ishan Kishan", "Dwayne Smith"};
+char *players[TEAM_SIZE] = {"Michael Hussey ", "Murali Vijay ", "Suresh Raina", "S Badrinath", "MS Dhoni", "Albie Morkel", "Dwayne Bravo", "Wriddhiman Saha", "Ravichandran Ashwin", "Doug Bollinger", "Shadab Jakati", "Deepak Chahar", "Shardul Thakur", "Josh Hazalwood","Morne Morkel", "Davy Jacob", "Aiden Blizzard", "Tirumalasetti Suman", "Ambati Rayudu", "Andrew Symonds", "Kieron Pollard", "Rajagopal Sathish", "Harbhajan Singh", "Lasith Malinga", "Abu Nechim", "Yuzvendra Chahal", "Rohit Sharma", "Ishan Kishan", "Dwayne Smith","Andrew Tye"};
 
 int main()
 {

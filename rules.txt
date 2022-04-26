@@ -1,0 +1,51 @@
+****************************Welcome to Team11***************************
+
+
+Following are the rules for making your team:
+_____________________________________________
+
+You will be given a list of 30 available players from both of the teams(15 from each).You are supposed to choose any 11 out of them with some bounds as follows.
+
+    (1)Total team size should be 11 and maximum of 7 players can be chosen from one team.
+    (2)Your team can have different combination of players.
+
+You have following choices:
+___________________________
+
+    =>From Team1:
+    _____________
+
+    (1)Michael Hussey
+    (2)Murali Vijay
+    (3)Suresh Raina
+    (4)S Badrinath
+    (5)MS Dhoni
+    (6)Albie Morkel
+    (7)Dwayne Bravo
+    (8)Wriddhiman Saha
+    (9)Ravichandran Ashwin
+    (10)Doug Bollinger
+    (11)Shadab Jakati
+    (12)Deepak Chahar
+    (13)Shardul Thakur
+    (14)Josh Hazalwood
+    (15)Morne Morkel
+
+    =>From Team2:
+    _____________
+
+    (16)Davy Jacob
+    (17)Aiden Blizzard
+    (18)Tirumalasetti Suman
+    (19)Ambati Rayudu
+    (20)Andrew Symonds
+    (21)Kieron Pollard
+    (22)Rajagopal Sathish
+    (23)Harbhajan Singh
+    (24)Lasith Malinga
+    (25)Abu Nechim
+    (26)Yuzvendra Chahal
+    (27)Rohit Sharma
+    (28)Ishan Kishan
+    (29)Dwayne Smith
+    (30)Andrew Tye

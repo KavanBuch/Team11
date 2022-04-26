@@ -46,16 +46,18 @@ void write_file(int sockfd)
         n = recv(sockfd, buffer, SIZE, 0);
         if (buffer[0] == '`')
             break;
-        printf("%s\n", buffer);
+        printf("%s",buffer);
         if (n <= 0)
+        {
             return;
+        }
     }
 }
 
 int main()
 {
-    char *ip = "192.168.43.2";
-    int port = 8080;
+    char *ip = "127.0.0.1";
+    int port = 8080; // 8080
     int e;
 
     int sockfd;
@@ -83,14 +85,16 @@ int main()
 
     printf("[+]Connected to Server.\n");
 
-    write_file(sockfd);   // design file
-    send_message(sockfd); // choice
+    write_file(sockfd);   // rules file
+    // send_message(sockfd); // choice
     sleep(2);
 
-    FILE *fp;
-    char *filename = "xyz.c";
+    system("bash run_input.sh");
 
-    fp = fopen(filename, "r"); // xyz.c
+    FILE *fp;
+    char *filename = "client_team.txt";
+
+    fp = fopen(filename, "r");
     if (fp == NULL)
     {
         perror("[-]Error in reading file.");
@@ -106,7 +110,7 @@ int main()
 
     fclose(fp);
 
-    write_file(sockfd); // output file
+    // write_file(sockfd); // output file
 
     printf("[+]File data sent successfully.\n");
 
